@@ -7,8 +7,8 @@ from scipy import signal
 # Matrix size (N x N)
 N = 50;
 
-present = np.random.randint(0, 2, [N, N]);
-#present = np.zeros(N*N).reshape(N, N)
+present = np.random.randint(0, 2, [N, N]); # random N x N matrix with 0 or 1
+#present = np.zeros(N*N).reshape(N, N) # N x N matrix with all elements = 0
 
 def block(matrix, x, y):
     matrix[x: x+2, y: y+2] = np.array([[1, 1], [1, 1]]);
@@ -27,9 +27,8 @@ files = [];
 for n in range(0, 180):
 
     if n == 0:
-        plt.imshow(present, cmap="binary");
+        plt.imshow(present, cmap="hot");
         plt.title(f"Game of Life");
-        #plt.show()
         filename1 = f"{n}.png";
         files.append(filename1);
         plt.savefig(filename1);
@@ -37,9 +36,8 @@ for n in range(0, 180):
     convol_world = signal.convolve2d(present, kernel, mode="same", boundary="wrap" );
     present = (((present == 1) & (convol_world > 1) & (convol_world < 4)) | ((present == 0) & (convol_world == 3)));
     
-    plt.imshow(present, cmap="binary");
+    plt.imshow(present, cmap="hot");
     plt.title(f"Game of Life - Generation {n}");
-    #plt.show()
     filename = f"{n}.png";
     files.append(filename);
     plt.savefig(filename);
