@@ -19,24 +19,29 @@ def glider(matrix, x, y):
 def spaceship(matrix, x, y):
     matrix[x: x+4, y: y+6] = np.array([[0,0,0,1,1,0], [1,1,1,0,1,1], [1,1,1,1,1,0], [0,1,1,1,0,0]])
 
+def toad(matrix, x, y):
+    matrix[x: x+2, y: y+4] = np.array([[0,1,1,1], [1,1,1,0]]);
+
+def dieHard(matrix, x, y):
+    matrix[x: x+3, y: y+8] = np.array([[0,0,0,0,0,0,1,0], [1,1,0,0,0,0,0,0], [0,1,0,0,0,1,1,1]])
+
 kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]]);
-#spaceship(present, 4, 4)
+#dieHard(present, 3,3)
 
 files = [];
 
-for n in range(0, 180):
+plt.imshow(present, cmap="binary");
+plt.title(f"Game of Life");
+filename1 = f"{0}.png";
+files.append(filename1);
+plt.savefig(filename1);
 
-    if n == 0:
-        plt.imshow(present, cmap="hot");
-        plt.title(f"Game of Life");
-        filename1 = f"{n}.png";
-        files.append(filename1);
-        plt.savefig(filename1);
+for n in range(1, 131):
 
     convol_world = signal.convolve2d(present, kernel, mode="same", boundary="wrap" );
     present = (((present == 1) & (convol_world > 1) & (convol_world < 4)) | ((present == 0) & (convol_world == 3)));
     
-    plt.imshow(present, cmap="hot");
+    plt.imshow(present, cmap="binary");
     plt.title(f"Game of Life - Generation {n}");
     filename = f"{n}.png";
     files.append(filename);
